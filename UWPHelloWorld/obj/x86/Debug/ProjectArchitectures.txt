@@ -1,0 +1,1 @@
+C:\Users\david\source\repos\UWPHelloWorld\UWPHelloWorld\UWPHelloWorld.csproj;x86
