@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -22,21 +23,30 @@ namespace UWPHelloWorld
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        ObservableCollection<MyListItem> dataList;
         public MainPage()
         {
             this.InitializeComponent();
+            this.InitializeList();
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void InitializeList()
         {
-            if (nameTextBox.Text != "")
-            {
-                txtBlock.Text = "Hello: " + nameTextBox.Text;
-            }
-            else
-            {
-                txtBlock.Text = "You have not written your name.";
-            }
+            dataList = new ObservableCollection<MyListItem>() { new MyListItem() { Name = "Hello World", Page = typeof(SubPages.HelloWorld) } };
+            homeList.ItemsSource = dataList;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MyListItem mli = dataList.Where(x => x.Name.Equals(((Button)sender).Content)).First();
+            this.Frame.Navigate(mli.Page);
+        }
+
+        class MyListItem
+        {
+            public String Name { get; set; }
+
+            public Type Page { get; set; }
         }
     }
 }
